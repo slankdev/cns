@@ -344,14 +344,12 @@ def main():
                  'reconf     generate destroy, setup and config script \n'
                  'tpl        generate template yaml file \n'
                  'pull       generate docker image pulling script \n'
-                 'img        generate network topology \n'
+                 'img        generate network topology png file\n'
                  )
     parser.add_argument('-f', '--specfile', default='spec.yaml')
-    args = parser.parse_args()
-    specfile = args.specfile
-    option = args.option
     parser.add_argument('-v', '--imgfile', default='spec.png')
     args = parser.parse_args()
+    specfile = args.specfile
     imgfile = args.imgfile
     option = args.option
 
