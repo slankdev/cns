@@ -27,6 +27,12 @@ $ cns init | sudo sh   // generate and execute init shell-script
 $ cns fini | sudo sh   // generate and execute fnit shell-script
 $ cns conf | sudo sh   // generate and execute config shell-script
 $ cns tpl              // generate template
+$ cns img              // generate network topology image file
+```
+
+NEED visualization for Graphviz
+```
+$ sudo apt-get install graphviz
 ```
 
 Running on VM
