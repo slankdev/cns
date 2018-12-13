@@ -296,7 +296,9 @@ def pull(data):
             print('docker pull {}'.format(node['image']))
 
 def generate_img(data, imgfile):
-    graph = pydot.Dot(graph_type='graph')
+    graph = pydot.Dot(graph_type='graph', overlap=False, splines=True)
+    int_names = []
+    name_infos = []
     for i in range(len(data['nodes'])):
         node_name = data["nodes"][i]["name"]
         graph.add_node(pydot.Node(node_name, label=node_name))
@@ -309,8 +311,8 @@ def generate_img(data, imgfile):
             int_name = iface_info[j]['opts']
             graph.add_node(pydot.Node(name_info, label=name_info, shape="box", height=0.1, width=0.1))
             graph.add_edge(pydot.Edge(node_name, name_info))
+            #print(name_info, "->", int_name)
             graph.add_edge(pydot.Edge(name_info, int_name))
-    #graph.write_png(imgfile, prog='twopi')
     graph.write_png(imgfile, prog='sfdp')
 
 def test(data):
