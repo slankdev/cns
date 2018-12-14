@@ -304,9 +304,9 @@ def generate_img(data, imgfile):
         for j in range(len(iface_info)):
             iface_name = node_name+"#"+iface_info[j]['name']
             opts_name = iface_info[j]['opts']
-            graph.add_node(pydot.Node(iface_name, label=iface_name, shape="box", height=0.1, width=0.1))
+            graph.add_node(pydot.Node(iface_name, label=iface_name, shape="box", fixedsize=True, height=0.2))
             graph.add_edge(pydot.Edge(node_name, iface_name))
-            graph.add_edge(pydot.Edge(iface_name, opts_name, arrowhead="normal"))
+            graph.add_edge(pydot.Edge(iface_name, opts_name))
     graph.write_png(imgfile, prog='sfdp')
 
 def test(data):
