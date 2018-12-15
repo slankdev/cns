@@ -1,6 +1,8 @@
 
 # CNS: Container Network Simulation tools
 
+**!!This is prototype version.!! UI may change without prior notice**
+
 Here we introduce the Container Network Simulation tools.
 Users can generate,  from the YAML configuration file,
 the script to build the L2 container network.
@@ -11,7 +13,8 @@ It is tested on Ubuntu 16.04 LTS and later.
 
 Prepare and install CNS like below.
 ```
-$ sudo apt install graphviz  # for cns img
+// you should install docker before following.
+$ sudo apt install python3 python3-pip graphviz # graphviz is for cns img
 $ git clone https://github.com/slankdev/cns && cd cns
 $ sudo pip3 install -r requirement.txt
 $ sudo cp bin/cns /usr/local/bin
