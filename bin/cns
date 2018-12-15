@@ -341,7 +341,7 @@ def main():
                  'img        generate network topology png file\n'
                  )
     parser.add_argument('-f', '--specfile', default='spec.yaml')
-    parser.add_argument('-v', '--imgfile', default='spec.png')
+    parser.add_argument('-v', '--imgfile', default='topo.png')
     args = parser.parse_args()
     specfile = args.specfile
     imgfile = args.imgfile
