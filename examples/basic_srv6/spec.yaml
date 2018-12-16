@@ -9,7 +9,7 @@ nodes:
   - name: S1
     image: cnsnode
     interfaces:
-    - { name: net0, type: direct, opts: R3#net1 }
+    - { name: net0, type: direct, opts: R2#net1 }
 
   - name: R0
     image: cnsnode
