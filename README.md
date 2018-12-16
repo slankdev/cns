@@ -1,6 +1,8 @@
 
 # CNS: Container Network Simulation tools
 
+*!!This is prototype version.!! UI may change without prior notice*
+
 Here we introduce the Container Network Simulation tools.
 Users can generate,  from the YAML configuration file,
 the script to build the L2 container network.
