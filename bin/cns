@@ -2,7 +2,7 @@
 
 import sys
 import yaml
-import pprint
+from pprint import pprint
 import argparse
 import pydot
 
@@ -388,6 +388,49 @@ def img(data, imgfile):
                 graph.add_edge(new_edge)
     graph.write_png(imgfile, prog='sfdp')
 
+
+def test2(data, hosts, cmd):
+    if len(hosts) == 2:
+        nodes = data["nodes"]
+        for i in range(len(nodes)):
+            node_name = nodes[i]["name"]
+            if hosts[1] == node_name:
+                iface_info = nodes[i]["interfaces"]
+                for j in range(len(iface_info)):
+                    iface = iface_info[j]["name"]
+                    get_ip = "docker exec {} ip -4 a show {} ".format(node_name, iface)
+                    get_ip = get_ip + " | grep -oP '(?<=inet\s)\d+(\.\d+){3}'"
+                    cmd_str = "docker exec %s %s -c2 `%s`" % (hosts[0], cmd, get_ip)
+                    print('echo -n execute [{}]...'.format(cmd_str))
+                    print('{} >> /dev/null'.format(cmd_str))
+                    print('echo done')
+
+
+    elif hosts == "all":
+        nodes = data["nodes"]
+        dict_infos = []
+        for i in range(len(nodes)):
+            node_name = nodes[i]["name"]
+            iface_info = nodes[i]["interfaces"]
+            iface_infos = []
+            for j in range(len(iface_info)):
+                iface = iface_info[j]["name"]
+                iface_infos.append(iface)
+            dict_info = {node_name: iface_infos}
+            dict_infos.append(dict_info)
+        for i in range(len(dict_infos)):
+            for j in range(1, len(dict_infos)):
+                src = list(dict_infos[i].keys())
+                dst_node = list(dict_infos[j].keys())
+                dst_iface = list(dict_infos[j].values())[0]
+                for k in range(len(dst_iface)):
+                    get_ip = "docker exec {} ip -4 a show {} ".format(dst_node[0], dst_iface[k])
+                    get_ip = get_ip + " | grep -oP '(?<=inet\s)\d+(\.\d+){3}'"
+                    cmd_str = "docker exec %s %s -c2 `%s`" % (src[0], cmd, get_ip)
+                    print('echo -n execute [{}]...'.format(cmd_str))
+                    print('{} >> /dev/null'.format(cmd_str))
+                    print('echo done')
+
 def test(data):
     print('\n#####################')
     print('# INTEGRATION TEST  #')
@@ -407,7 +450,7 @@ def main():
     parser = argparse.ArgumentParser(
             formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument('option',
-            choices=['func', 'init', 'fini', 'reset', 'conf', 'test', 'reconf', 'tpl', 'pull', 'img'],
+            choices=['func', 'init', 'fini', 'reset', 'conf', 'test', 'reconf', 'tpl', 'pull', 'img', 'test2'],
             help='func       just generate helper funcs \n'
                  'init       generate setup script \n'
                  'fini       generate destroy script \n'
@@ -418,14 +461,16 @@ def main():
                  'tpl        generate template yaml file \n'
                  'pull       generate docker image pulling script \n'
                  'img        generate network topology png file\n'
+                 'test2      generate test script[default = all check]\n'
                  )
     parser.add_argument('-f', '--specfile', default='spec.yaml')
     parser.add_argument('-v', '--imgfile', default='topo.png')
+    parser.add_argument('--hosts', nargs=2, help="--hosts host1 host2", default="all")
+    parser.add_argument('--cmd', default='ping')
     args = parser.parse_args()
     specfile = args.specfile
     imgfile = args.imgfile
     option = args.option
-
 
     if (option == 'func'):
         generate_mount_docker_netns()
@@ -489,6 +534,11 @@ def main():
     elif (option == 'img'):
         data = yaml.load(open(specfile, "r+"))
         img(data, imgfile)
+    elif (option == 'test2'):
+        hosts = args.hosts
+        cmd = args.cmd
+        data = yaml.load(open(specfile, "r+"))
+        test2(data, hosts, cmd)
     else:
         parser.print_help()
 
