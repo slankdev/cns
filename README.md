@@ -23,36 +23,35 @@ $ tn version
 ```
 
 ```
-Usage:
-  tn [-f <arg>...] [options] [COMMAND] [ARGS...]
-  tn -h|--help
+usage: tn [-h] [-f SPECFILE] [-H HOST] [--project-name PROJECT_NAME]
+          [--verbose] [--dry-run]
+          {ps,up,down,pull,exec,build,conf,upconf,reconf,reup,version,test,init,img}
+          ...
 
-Options:
-  --verbose             Generate verbose shell
-  --dry-run             Print the recipes that are needed to execute the
-                        targets up to date, but not actually execute them.
-  --project-name NAME   Specify an alternate project name
-                        (default: none)
-  --H, --host HOST      Daemon socket to connect to
+positional arguments:
+  {ps,up,down,pull,exec,build,conf,upconf,reconf,reup,version,test,init,img}
+    ps                  List services
+    up                  Create and start containers
+    down                Stop and remove containers
+    pull                Pull service images
+    exec                Execute a command in a running container
+    build               Generate a Docker bundle from the spec file
+    conf                Execute config-cmd in a running container
+    upconf              Create, start and config
+    reconf              Stop, remove, create, start and config
+    reup                Stop, remove, create and start
+    version             Show the tinet version information
+    test                Execute tests
+    init                Generate template spec file
+    img                 Generate topology png file
 
-COMMAND:
-  ps         List services
-  start      Start services
-  stop       Stop services
-  create     Create services
-  rm         Remove stopped containers
-  up         Create and start containers
-  down       Stop and remove containers
-  pull       Pull service images
-  exec       Execute a command in a running container
-  build      Generate a Docker bundle from the spec file
-  conf       Execute config-cmd in a running container
-  reconf     Remove, create, start and config
-  restart    Remove, create, start
-  version    Show the tinet version information
-  test       Execute tests
-  init       Generate template spec file
-  img        Generate topology png file
+optional arguments:
+  -h, --help            show this help message and exit
+  -f SPECFILE, --specfile SPECFILE
+  -H HOST, --host HOST
+  --project-name PROJECT_NAME
+  --verbose
+  --dry-run
 ```
 
 Running on VM
